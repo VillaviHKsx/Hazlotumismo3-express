@@ -9,8 +9,15 @@
   {
     "id": "597ae149-81fd-4f42-9f46-47bcd174df30",
     "first_name": "Carmelo",
-    "last_name": "Villavicencio",
+    "last_name": "Villavicencio Soledispa",
     "age": 43,
+    "Team": "Chicago Bulls"
+  },
+  {
+    "id": "326b988f-b606-48fa-80e8-a4f0a6ccbd6e",
+    "first_name": "Matias",
+    "last_name": "Gutierrez S",
+    "age": 35,
     "Team": "Chicago Bulls"
   }
 ]

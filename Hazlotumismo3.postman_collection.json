@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "08e4cbeb-a2ac-426b-b333-2056033a3fb7",
+		"name": "Hazlotumismo3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38340876"
+	},
+	"item": [
+		{
+			"name": "Listado Players",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/players",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Players",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"first_name\": \"Matias Matias\",\n    \"last_name\": \"Gutierrez Gutierrez\",\n    \"age\": 35,\n    \"Team\": \"Chicago Bulls\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/players",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"players"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Players por su ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/v1/players/326b988f-b606-48fa-80e8-a4f0a6ccbd6e",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"players",
+						"326b988f-b606-48fa-80e8-a4f0a6ccbd6e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Player por su ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"last_name\": \"Gutierrez S\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/api/v1/players/326b988f-b606-48fa-80e8-a4f0a6ccbd6e",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"players",
+						"326b988f-b606-48fa-80e8-a4f0a6ccbd6e"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

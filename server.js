@@ -29,54 +29,43 @@ const getPlayersFromDB = async () => {
   };
 
 // "METODO GET - OBTENER TODOS LOS PLAYERS DE players.json"
-app.get('/api/v1/players', async (req, res) => {
-    // Vamos a obtener los registros que esten almacenados en la base de datos (archivo json)
-    // Tenemos que leer los datos almacenados en el archivo json
-    const players = await fs.readFile('./data/players.json');
-    res.json(JSON.parse(players));
-});
+const getPlayers = async (req, res) => {
+  const players = await fs.readFile('./data/players.json');
+  res.json(JSON.parse(players));
+};
 
 // "METODO POST - CREAR UN NUEVO PLAYER"
-app.post('/api/v1/players', async (req, res) => {
-    const {error} = playerSchema.validate(req.body, { convert: false});
-    if (error){
-      // El rango de los errores 400 (cualquier codigo de http que vaya desde 400-499 son errores del cliente)
-      return res.status(400).json({ error: error.details[0].message });
-    }
-  
-    // Vamos a utilizar la generacion de un  uuid(string -> GSSJDKDKHS) para poder asignar un id unico a nuestro
-    const uuid = uuidv4();
-    
-    // Vamos a leer todos los juguetes del archivo json
-    const players = await getPlayersFromDB();
-    // Vamos a insertar un nuevo juguete a nuestro arreglo
-    players.push({ id: uuid, ...req.body });
-  
-    await fs.writeFile('./data/players.json', JSON.stringify(players, null, 2));
-    
-    res.status(201).json({ message: 'Juguete creado con exito'});
-});
+const createPlayer = async (req, res) => {
+  const {error} = playerSchema.validate(req.body, { convert: false});
+  if (error){
+    return res.status(400).json({ error: error.details[0].message });
+  }
+  const uuid = uuidv4();
+  const players = await getPlayersFromDB();
+  players.push({ id: uuid, ...req.body });
 
+  await fs.writeFile('./data/players.json', JSON.stringify(players, null, 2));
+  res.status(201).json({ message: 'Juguete creado con exito'});
+};
 
 // "METODO GET - OBTENER EL PLAYER POR SU ID"
-app.get('/api/v1/players/:id', async (req, res) => {
-    const players = await fs.readFile('./data/players.json');
-    const allPlayers = JSON.parse(players);
-  
-    const playerId = req.params.id;
-    const player = allPlayers.find(player => player.id === playerId);
-  
-    if (player) {
-      res.json(player);
-    } else {
-      res.status(404).json({ mensaje: 'Juguete no encontrado' });
-    }
-});
+const getPlayerById = async (req, res) => {
+  const players = await fs.readFile('./data/players.json');
+  const allPlayers = JSON.parse(players);
 
+  const playerId = req.params.id;
+  const player = allPlayers.find(player => player.id === playerId);
+
+  if (player) {
+    res.json(player);
+  } else {
+    res.status(404).json({ mensaje: 'Juguete no encontrado' });
+  }
+};
 
 // "METODO PATCH - ACTUALIZAR UN PLAYER POR SU ID"
-app.patch('/api/v1/players/:id', async (req, res) => {
-    const {error} = playerUpdateSchema.validate(req.body, { convert: false});
+const updatePlayer = async (req, res) => {
+  const {error} = playerUpdateSchema.validate(req.body, { convert: false});
     if (error){
       return res.status(400).json({ error: error.details[0].message });
     }
@@ -94,11 +83,12 @@ app.patch('/api/v1/players/:id', async (req, res) => {
     await fs.writeFile('./data/players.json', JSON.stringify(players, null, 2));
   
     res.json({ message: 'Player actualizado' });
-});
+};
+
 
 // "METODO DELETE - BORRAR UN PLAYER POR SU ID"
-app.delete('/api/v1/players/:id', async (req, res) => {
-    const players = await getPlayersFromDB();
+const deletePlayer = async (req, res) => {
+  const players = await getPlayersFromDB();
     const playerIndex = players.findIndex(player => player.id === req.params.id);
   
     if (playerIndex === -1) {
@@ -110,7 +100,14 @@ app.delete('/api/v1/players/:id', async (req, res) => {
     await fs.writeFile('./data/players.json', JSON.stringify(players, null, 2));
   
     res.json({ message: 'Player eliminado' });
-});
+};
+
+// Rutas de los servicios
+app.get('/api/v1/players', getPlayers);
+app.post('/api/v1/players', createPlayer);
+app.get('/api/v1/players/:id', getPlayerById);
+app.patch('/api/v1/players/:id', updatePlayer);
+app.delete('/api/v1/players/:id', deletePlayer);
 
 
 app.listen(8080);
